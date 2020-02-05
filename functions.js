@@ -6,9 +6,10 @@
  * - returns undefined if no matching book is found
  ****************************************************************/
 function getBookById(bookId, books) {
-  // Your code goes here
-}
+  let x = books.find(book => book.id === bookId);
 
+  return x;
+}
 /**************************************************************
  * getAuthorByName(authorName, authors):
  * - receives an authorName
@@ -18,6 +19,11 @@ function getBookById(bookId, books) {
  ****************************************************************/
 function getAuthorByName(authorName, authors) {
   // Your code goes here
+  let x = authors.find(
+    author => author.name.toLowerCase() === authorName.toLowerCase()
+  );
+
+  return x;
 }
 
 /**************************************************************
@@ -28,6 +34,11 @@ function getAuthorByName(authorName, authors) {
  ****************************************************************/
 function bookCountsByAuthor(authors) {
   // Your code goes here
+  let x = authors.map(author => ({
+    author: author.name,
+    bookCount: author.books.length
+  }));
+  return x;
 }
 
 /**************************************************************
@@ -42,6 +53,14 @@ function booksByColor(books) {
 
   // Your code goes here
 
+  books.forEach(book => {
+    if (colors[book.color]) {
+      colors[book.color].push(book.title);
+    } else {
+      colors[book.color] = [book.title];
+    }
+  });
+
   return colors;
 }
 
@@ -55,8 +74,17 @@ function booksByColor(books) {
  ****************************************************************/
 function titlesByAuthorName(authorName, authors, books) {
   // Your code goes here
-}
+  // return getBookById(getAuthorByName(authorName, authors).books, books);
+  let bookId = getAuthorByName(authorName, authors);
+  if (bookId == undefined) {
+    return [];
+  } else {
+    return bookId.books.map(book => getBookById(book, books).title);
+  }
 
+  // console.log(y);
+  // console.log(getBookById(getAuthorByName(authorName, authors).books, books));
+}
 /**************************************************************
  * mostProlificAuthor(authors):
  * - receives a list of authors
@@ -66,6 +94,16 @@ function titlesByAuthorName(authorName, authors, books) {
  ****************************************************************/
 function mostProlificAuthor(authors) {
   // Your code goes here
+  let x = authors.map(author => author.books.length);
+  // console.log(x);
+  let y = Math.max(...x);
+  return authors.forEach(author => {
+    if (author.books.length === y) {
+      console.log(author.name);
+    }
+  });
+
+  // if (bookCountsByAuthor(authors).bookCount)
 }
 
 /**************************************************************
